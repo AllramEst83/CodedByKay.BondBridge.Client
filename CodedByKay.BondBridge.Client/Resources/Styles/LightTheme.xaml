@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="BackgroundLight">#ecf0f1</Color>
+    <!-- Clouds -->
+    <Color x:Key="TextLight">#95a5a6</Color>
+    <!-- Concrete -->
+
+    <!-- Primary Colors -->
+    <Color x:Key="Primary">#e74c3c</Color>
+    <!-- Pomegranate -->
+    <Color x:Key="PrimaryVariant">#c0392b</Color>
+    <!-- Darker shade of Pomegranate -->
+
+    <!-- Secondary Colors -->
+    <Color x:Key="Secondary">#3498db</Color>
+    <!-- Peter River -->
+    <Color x:Key="SecondaryVariant">#2980b9</Color>
+    <!-- Darker shade of Peter River -->
+
+    <!-- Accent Colors -->
+    <Color x:Key="Accent">#2ecc71</Color>
+    <!-- Emerald -->
+    <Color x:Key="AccentVariant">#27ae60</Color>
+    <!-- Darker shade of Emerald -->
+
+    <!-- Neutral Colors -->
+    <Color x:Key="LightGray">#ecf0f1</Color>
+    <!-- Clouds -->
+    <Color x:Key="DarkGray">#95a5a6</Color>
+    <!-- Concrete -->
+
+    <!-- Utility Colors -->
+    <Color x:Key="Error">#e74c3c</Color>
+    <!-- Pomegranate -->
+    <Color x:Key="Success">#2ecc71</Color>
+    <!-- Emerald -->
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
+    <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}"/>
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundLight}"/>
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextLight}"/>
+</ResourceDictionary>
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CodedByKay.BondBridge.Client.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CodedByKay.BondBridge.Client.Pages"
+    Shell.FlyoutBehavior="Flyout"
+    Title="CodedByKay.BondBridge.Client">
+
+    <!-- Flyout Header (Optional) -->
+    <Shell.FlyoutHeader>
+        <Label Margin="5" Text="BondBridge" FontAttributes="None" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
+    </Shell.FlyoutHeader>
+
+    <!-- Flyout menu items -->
+    <FlyoutItem Title="Konversationer" Icon="contact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ConversationsListPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Teman" Icon="contact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ThemeSelectorPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Om BondBridge" Icon="contact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+</Shell>

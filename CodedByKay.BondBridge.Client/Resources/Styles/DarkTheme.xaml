@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="BackgroundDark">#95a5a6</Color>
+    <!-- Concrete -->
+    <Color x:Key="TextDark">#ecf0f1</Color>
+    <!-- Clouds -->
+
+    <!-- Using darker shades for primary, secondary, and accent colors for better contrast in dark mode -->
+    <Color x:Key="PrimaryDark">#c0392b</Color>
+    <!-- Darker Pomegranate -->
+    <Color x:Key="SecondaryDark">#2980b9</Color>
+    <!-- Darker Peter River -->
+    <Color x:Key="AccentDark">#27ae60</Color>
+    <!-- Darker Emerald -->
+
+    <!-- Neutral Colors (inverted for dark theme) -->
+    <Color x:Key="LightGrayDark">#95a5a6</Color>
+    <!-- Concrete -->
+    <Color x:Key="DarkGrayDark">#ecf0f1</Color>
+    <!-- Clouds -->
+
+    <!-- Utility Colors -->
+    <Color x:Key="ErrorDark">#c0392b</Color>
+    <!-- Darker Pomegranate -->
+    <Color x:Key="SuccessDark">#27ae60</Color>
+    <!-- Darker Emerald -->
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PrimaryBrushDark" Color="{StaticResource PrimaryDark}"/>
+    <SolidColorBrush x:Key="SecondaryBrushDark" Color="{StaticResource SecondaryDark}"/>
+    <SolidColorBrush x:Key="AccentBrushDark" Color="{StaticResource AccentDark}"/>
+    <SolidColorBrush x:Key="BackgroundBrushDark" Color="{StaticResource BackgroundDark}"/>
+    <SolidColorBrush x:Key="TextBrushDark" Color="{StaticResource TextDark}"/>
+</ResourceDictionary>

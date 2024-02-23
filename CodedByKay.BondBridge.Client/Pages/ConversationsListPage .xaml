@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CodedByKay.BondBridge.Client.Pages.ConversationsListPage"
+             xmlns:model="clr-namespace:CodedByKay.BondBridge.Client.Models"
+             xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
+             Title="Konversationer">
+
+    <AbsoluteLayout Padding="5,0,5,5">
+        <!-- Vertical layout to stack elements vertically within the absolute layout -->
+        <VerticalStackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+
+            <!-- Placeholder Label, potentially for a title or header (currently hidden with FontSize="0") -->
+            <Label Text=""
+               FontSize="0" />
+
+            <!-- CollectionView for displaying a list of contacts -->
+            <CollectionView x:DataType="viewmodel:ConversationsListViewModel" ItemsSource="{Binding Conversations}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Conversation">
+                        <!-- SwipeView wrapping the Grid for swipe actions -->
+                        <SwipeView>
+                            <!-- LeftItems for actions when swiped to the left -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItemView
+                                        Command="{Binding Path=DeleteConversationCommand, Source={RelativeSource AncestorType={x:Type viewmodel:ConversationsListViewModel}}}"
+                                        CommandParameter="{Binding .}" >
+                                        <Grid BackgroundColor="Red" Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="contact.png" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="2" Margin="10,5,5,5"/>
+                                            <Label Text="Delete" TextColor="White" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <!-- Grid containing the item layout, now wrapped inside SwipeView -->
+                            <Grid Padding="10" ColumnDefinitions="Auto,*">
+                                <!-- Adding TapGestureRecognizer back to the Grid -->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                    Command="{Binding Path=GoToConverstaionCommand, Source={RelativeSource AncestorType={x:Type viewmodel:ConversationsListViewModel}}}" 
+                    CommandParameter="{Binding ConversationId}"/>
+                                </Grid.GestureRecognizers>
+
+                                <!-- Image and StackLayout as before, for displaying contact info -->
+                                <Image 
+                                        Source="{Binding ImagePath}"
+                                        Aspect="AspectFill"
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        VerticalOptions="Center"/>
+
+                                <StackLayout Grid.Column="1" Orientation="Vertical" Padding="15,0,0,0">
+                                    <Label Text="{Binding FullName}"
+                                        FontSize="16"
+                                        VerticalOptions="Center"/>
+                                    <Label Text="{Binding LastMessage}"
+                    FontSize="14"
+                    TextColor="Green"
+                    VerticalOptions="Center"/>
+                                </StackLayout>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <!-- A button for initiating a new conversation, positioned at the bottom-right corner -->
+        <Button Text="+" 
+            FontSize="Medium" 
+            WidthRequest="60" 
+            HeightRequest="60" 
+            BackgroundColor="#007AFF" 
+            TextColor="Yellow"
+            CornerRadius="30"
+            Margin="0,0,12,10"
+            AbsoluteLayout.LayoutBounds="1,1,-1,-1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            x:DataType="viewmodel:ConversationsListViewModel"
+            Command="{Binding StartConversationCommand}"/>
+    </AbsoluteLayout>
+
+</ContentPage>

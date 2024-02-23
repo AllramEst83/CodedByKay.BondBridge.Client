@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CodedByKay.BondBridge.Client.Pages.AboutPage"
+             Title="AboutPage">
+    <VerticalStackLayout>
+        
+        
+        <Label
+             Margin="0,50,0,0"
+             Grid.Column="1"
+             HorizontalTextAlignment="Center"
+             TextColor="#2C54CC"
+             FontAttributes="Bold">
+
+            Icons designed by Freepik
+
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer 
+                                     Command="{Binding GoToHyperlinkAdressCommand}"
+                                     CommandParameter="https://www.freepik.com/" />
+            </Label.GestureRecognizers>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>
