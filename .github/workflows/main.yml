@@ -1,0 +1,80 @@
+name: Build .NET MAUI App for Android
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Keystore File
+      shell: bash
+      run: |
+        # Decode and write the encrypted keystore file
+        echo "Setting up the keystore file..."
+        echo "${{ secrets.KEYSTORE_FILE }}" | base64 -d > CodedByKay.BondBridge.Client/coded-by-kay.keystore.asc || { echo "Failed to decode and write the keystore file."; exit 1; }
+        
+        # Decrypt the keystore file
+        echo "Decrypting the keystore file..."
+        gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.KEYSTORE_PASSWORD_GPG }}" --output CodedByKay.BondBridge.Client/coded-by-kay.keystore CodedByKay.BondBridge.Client/coded-by-kay.keystore.asc || { echo "Failed to decrypt the keystore file."; exit 1; }
+        
+        # Verify the file setup
+        echo "Keystore setup completed. Verifying file presence and size..."
+        ls -l CodedByKay.BondBridge.Client/coded-by-kay.keystore*
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' # Update to target .NET 8.0
+        
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'microsoft'
+        java-version: '11'
+        
+    - name: Install .Net MAUI
+      shell: bash
+      run: |
+        dotnet workload install android
+        dotnet workload install maui
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet publish CodedByKay.BondBridge.Client/CodedByKay.BondBridge.Client.csproj -c Release -f net8.0-android /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=${{secrets.KEYSTORE}} /p:AndroidSigningKeyAlias=${{ secrets.KEYSTORE_ALIAS }} /p:AndroidSigningKeyPass=${{ secrets.KEYPASS_PASSWORD }} /p:AndroidSigningStorePass=${{ secrets.STOREPASS_PASSWORD }} --no-restore
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: android-ci-build
+        path: CodedByKay.BondBridge.Client/bin/Release/net8.0-android/*Signed.aab*
+
+  appcenter:
+      needs: build
+      runs-on: ubuntu-latest
+      name: AppCenter Publish
+      
+      steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: android-ci-build
+
+      - name: Upload artifact to App Center
+        uses: wzieba/AppCenter-Github-Action@v1.3.4
+        with:
+          appName: kaywib/BondBridge
+          token: ${{secrets.APP_CENTER_BONDBRIDGE_TOKEN}}
+          group: Testers
+          file: ./com.codedbykay.bondbridge.client-Signed.aab
+          notifyTesters: true
+          debug: false
