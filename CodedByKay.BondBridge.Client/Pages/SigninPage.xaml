@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CodedByKay.BondBridge.Client.Pages.SigninPage"
+             xmlns:model="clr-namespace:CodedByKay.BondBridge.Client.Models"
+             xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
+             Title="Logga in">
+    
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
+            <!-- Email Input -->
+            <Frame CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray">
+                <Entry x:Name="emailEntry" 
+                       x:DataType="viewmodel:SigninViewModel"
+                       Text="{Binding UserEmail}"
+                       TextColor="Black"
+                       Placeholder="E-post" 
+                       Keyboard="Email"
+                       BackgroundColor="Transparent"
+                       Margin="0"/>
+            </Frame>
+
+            <!-- Password Input -->
+            <Frame CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray" Margin="0,10">
+                <Entry x:Name="passwordEntry" 
+                       x:DataType="viewmodel:SigninViewModel"
+                       Text="{Binding UserPassword}"
+                       Placeholder="Lösenord" 
+                       IsPassword="True"
+                       TextColor="Black"
+                       BackgroundColor="Transparent"
+                       Margin="0"/>
+            </Frame>
+
+            <!-- Sign-in Button -->
+            <Button Text="Logga in" 
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="22"
+                    HeightRequest="44"
+                    Command="{Binding Path=SigninCommand, Source={RelativeSource AncestorType={x:Type viewmodel:SigninViewModel}}}"/>
+
+            <!-- Registration Link -->
+            <Label Text="Inte registrerad? Registrera dig här" 
+                   HorizontalOptions="Center"
+                   TextColor="Blue"
+                   Margin="20,40,20,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=GoToRegistrationPageCommand, Source={RelativeSource AncestorType={x:Type viewmodel:SigninViewModel}}}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

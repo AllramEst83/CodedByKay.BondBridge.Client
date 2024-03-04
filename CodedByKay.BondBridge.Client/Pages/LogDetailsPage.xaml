@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
+                xmlns:model="clr-namespace:CodedByKay.BondBridge.Client.Models.Response"
+             x:Class="CodedByKay.BondBridge.Client.Pages.LogDetailsPage"
+             Title="Log detaljer">
+
+    <ScrollView x:DataType="viewmodel:LogDetailsViewModel">
+        <StackLayout Padding="10">
+            <!-- Log Level -->
+            <StackLayout Orientation="Horizontal">
+                <Label TextColor="Black" Text="Typ:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                <Label TextColor="GreenYellow" Text="{Binding RecivedLogResponse.Level}" FontSize="Small" Margin="0,0,5,5"/>
+            </StackLayout>
+            <!-- Timestamp -->
+            <StackLayout Orientation="Horizontal">
+                <Label TextColor="Black" Text="Tid:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                <Label TextColor="GreenYellow" Text="{Binding RecivedLogResponse.Timestamp, StringFormat='{0:yyyy-MM-dd kl: HH:mm}'}" FontSize="Small" Margin="0,0,5,5"/>
+            </StackLayout>
+            <!-- Message -->
+            <StackLayout Orientation="Horizontal">
+                <Label TextColor="Black" Text="Message:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                <Label TextColor="GreenYellow" Text="{Binding RecivedLogResponse.Message}" FontSize="Small" Margin="0,0,5,5"/>
+            </StackLayout>
+            <!-- Exception Message -->
+            <Label Text="Exception:"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Text="{Binding RecivedLogResponse.ExceptionMessage}"
+                   LineBreakMode="WordWrap"
+                   TextColor="GreenYellow"/>
+            <!-- Stack Trace -->
+            <Label Text="Stack Trace:"
+                   FontAttributes="Bold"
+                   TextColor="Black"/>
+            <Label Text="{Binding RecivedLogResponse.StackTrace}"
+                   LineBreakMode="WordWrap"
+                   TextColor="GreenYellow"/>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

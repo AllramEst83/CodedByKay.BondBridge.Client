@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CodedByKay.BondBridge.Client.Pages.LogPage"
+              xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
+              xmlns:model="clr-namespace:CodedByKay.BondBridge.Client.Models.Response"
+             Title="Loggar">
+    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10">
+        <ListView x:Name="LogsListView"
+              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+              x:DataType="viewmodel:LogViewModel"
+              ItemsSource="{Binding Logs}"
+                   HasUnevenRows="true">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:LogResponse">
+                    <ViewCell>
+                        <Frame BackgroundColor="CornflowerBlue" Padding="10" CornerRadius="15" Margin="5" VerticalOptions="FillAndExpand">
+                            <StackLayout Orientation="Vertical">
+                                <!-- Log summary with Horizontal StackLayout for title and data -->
+                                <StackLayout Orientation="Horizontal">
+                                    <Label TextColor="Black" Text="Typ:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                                    <Label TextColor="GreenYellow" Text="{Binding Level}" FontSize="Small" Margin="0,0,5,5"/>
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label TextColor="Black" Text="Tid:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                                    <Label TextColor="GreenYellow" Text="{Binding Timestamp, StringFormat='{0:yyyy-MM-dd kl: HH:mm}'}" FontSize="Small" Margin="0,0,5,5"/>
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label TextColor="Black" Text="Message:" FontAttributes="Bold" Margin="0,0,5,5"/>
+                                    <Label TextColor="GreenYellow" Text="{Binding Message}" FontSize="Small" Margin="0,0,5,5"/>
+                                </StackLayout>
+                              
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Path=ShowItemCommand, Source={RelativeSource AncestorType={x:Type viewmodel:LogViewModel}}}"
+                                    CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+
+
+
+
+
+</ContentPage>
