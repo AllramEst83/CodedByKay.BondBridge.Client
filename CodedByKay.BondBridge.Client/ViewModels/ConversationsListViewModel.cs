@@ -3,6 +3,8 @@ using CodedByKay.BondBridge.Client.Pages;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 using System.Collections.ObjectModel;
 
 namespace CodedByKay.BondBridge.Client.ViewModels
@@ -10,13 +12,72 @@ namespace CodedByKay.BondBridge.Client.ViewModels
     public partial class ConversationsListViewModel : BaseViewModel
     {
         [ObservableProperty]
-        public ObservableCollection<Conversation> conversations;
+        private string searchInput = string.Empty;
+
+        [ObservableProperty]
+        private ObservableCollection<Conversation> conversations = new ObservableCollection<Conversation>();
+
+        [ObservableProperty]
+        private ObservableCollection<Conversation> filteredConversations = new ObservableCollection<Conversation>();
+
+        public void UpdateFilteredConversations(string filter)
+        {
+            FilteredConversations.Clear();
+            foreach (var conversation in Conversations.Where(c => string.IsNullOrEmpty(filter) || c.FullName.ToLower().Contains(filter.ToLower())))
+            {
+                FilteredConversations.Add(conversation);
+            }
+        }
         public ConversationsListViewModel()
         {
+            SearchInput = string.Empty;
             Conversations = [];
 
-            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Alice", ImagePath = "contact.png", LastMessage = "Hi there!" });
-            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Bob", ImagePath = "contact.png", LastMessage = "How's it going?" });
+            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Kay", ImagePath = "placeholderimage.png", LastMessage = "Hi there!" });
+            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Rebecka", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
+            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Morris", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
+            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Milton", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
+
+            LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
+        }
+
+        //Send Id thru the notification
+        private void Current_NotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
+        {
+            if (e.IsDismissed)
+            {
+
+            }
+            else if (e.IsTapped)
+            {
+
+            }
+        }
+
+        private void AddNotifications(string username, string lastmessage)
+        {
+            var request = new NotificationRequest
+            {
+                NotificationId = 1337,
+                Title = username,
+                Subtitle = "Nytt meddelande",
+                Description = lastmessage,
+                BadgeNumber = 42,
+                Schedule = new NotificationRequestSchedule
+                {
+                    NotifyTime = DateTime.Now.AddSeconds(5),
+                    NotifyRepeatInterval = TimeSpan.FromDays(1),
+                },
+                Android = new AndroidOptions()
+                {
+                    IconLargeName = new AndroidIcon()
+                    {
+                        ResourceName = "placeholderimage.png"
+                    }
+                }
+            };
+
+            LocalNotificationCenter.Current.Show(request);
         }
 
         [RelayCommand]
@@ -27,11 +88,13 @@ namespace CodedByKay.BondBridge.Client.ViewModels
             await Shell.Current.GoToAsync(nameof(ConversationPage));
         }
 
-
         [RelayCommand]
         private async Task StartConversation()
         {
-            Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Bob", ImagePath = "contact.png", LastMessage = "How's it going?" });
+            var item = new Conversation { ConversationId = Guid.NewGuid(), FullName = "Bob", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" };
+
+            Conversations.Add(item);
+            FilteredConversations.Add(item);
             await Toast.Make("Vilken användare vill du starta en konverstaion med?", CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
         }
 
@@ -61,13 +124,15 @@ namespace CodedByKay.BondBridge.Client.ViewModels
             if (result)
             {
                 var conversationToremove = Conversations.FirstOrDefault(x => x.ConversationId == conversation.ConversationId);
-                if (conversationToremove == null)
+                var filteredConversationToremove = FilteredConversations.FirstOrDefault(x => x.ConversationId == conversation.ConversationId);
+                if (conversationToremove == null || filteredConversationToremove == null)
                 {
                     await Toast.Make("Oops! Ett fel uppstod vid borttagning.", CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
                 }
                 else
                 {
                     Conversations.Remove(conversationToremove);
+                    FilteredConversations.Remove(filteredConversationToremove);
                     await Toast.Make($"Konversation med {conversation.FullName} är bortagen", CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
                 }
             }

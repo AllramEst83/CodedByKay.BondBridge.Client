@@ -26,12 +26,12 @@
         /// </summary>
         /// <param name="key">The key associated with the value to remove.</param>
         /// <returns>True if the value was successfully removed; otherwise, false.</returns>
-        Task<bool> RemoveAsync(string key);
+        bool RemoveAsync(string key);
 
         /// <summary>
         /// Asynchronously clears all stored user data.
         /// </summary>
-        Task ClearAsync();
+        void ClearAsync();
 
         /// <summary>
         /// Asynchronously checks if the user has data stored securely with the specified key.
