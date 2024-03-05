@@ -1,5 +1,6 @@
 using CodedByKay.BondBridge.Client.MessageEvents;
 using CodedByKay.BondBridge.Client.ViewModels;
+using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CodedByKay.BondBridge.Client.Pages;
@@ -34,16 +35,53 @@ public partial class SigninPage : ContentPage
         {
             await NavigateToRegistrationPage();
         });
+
+        WeakReferenceMessenger.Default.Register<FlashSigInInputOnAuthErrorMessage>(this, async (recipient, message) =>
+        {
+            await FlashInputFieldsAsync();
+        });
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         WeakReferenceMessenger.Default.Unregister<NavigateToRegistrationMessage>(this);
+        WeakReferenceMessenger.Default.Unregister<FlashSigInInputOnAuthErrorMessage>(this);
     }
 
     private async Task NavigateToRegistrationPage()
     {
         await Navigation.PushAsync(new RegistrationPage());
     }
+
+    private async Task FlashInputFieldsAsync()
+    {
+        uint animationDuration = 1000;
+
+        await AnimateToErrorBackground(animationDuration);
+        await AnimateToDefaultBackground(animationDuration);
+        await AnimateToErrorBackground(animationDuration);
+        await AnimateToDefaultBackground(animationDuration);
+    }
+
+    private async Task AnimateToErrorBackground(uint animationDuration)
+    {
+        var errorColor = Colors.PaleVioletRed;
+
+        await Task.WhenAll(
+                        EmailFrame.BackgroundColorTo(errorColor, animationDuration, easing: Easing.Linear),
+                        PasswordFrame.BackgroundColorTo(errorColor, animationDuration, easing: Easing.Linear)
+                    );
+    }
+
+    private async Task AnimateToDefaultBackground(uint animationDuration)
+    {
+
+        var originalColor = Colors.LightGray;
+        await Task.WhenAll(
+                        EmailFrame.BackgroundColorTo(originalColor, animationDuration, easing: Easing.Linear),
+                        PasswordFrame.BackgroundColorTo(originalColor, animationDuration, easing: Easing.Linear)
+                    );
+    }
+
 }

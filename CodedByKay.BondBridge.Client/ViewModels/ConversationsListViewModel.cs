@@ -37,47 +37,6 @@ namespace CodedByKay.BondBridge.Client.ViewModels
             Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Rebecka", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
             Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Morris", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
             Conversations.Add(new Conversation { ConversationId = Guid.NewGuid(), FullName = "Milton", ImagePath = "placeholderimage.png", LastMessage = "How's it going?" });
-
-            LocalNotificationCenter.Current.NotificationActionTapped += Current_NotificationActionTapped;
-        }
-
-        //Send Id thru the notification
-        private void Current_NotificationActionTapped(Plugin.LocalNotification.EventArgs.NotificationActionEventArgs e)
-        {
-            if (e.IsDismissed)
-            {
-
-            }
-            else if (e.IsTapped)
-            {
-
-            }
-        }
-
-        private void AddNotifications(string username, string lastmessage)
-        {
-            var request = new NotificationRequest
-            {
-                NotificationId = 1337,
-                Title = username,
-                Subtitle = "Nytt meddelande",
-                Description = lastmessage,
-                BadgeNumber = 42,
-                Schedule = new NotificationRequestSchedule
-                {
-                    NotifyTime = DateTime.Now.AddSeconds(5),
-                    NotifyRepeatInterval = TimeSpan.FromDays(1),
-                },
-                Android = new AndroidOptions()
-                {
-                    IconLargeName = new AndroidIcon()
-                    {
-                        ResourceName = "placeholderimage.png"
-                    }
-                }
-            };
-
-            LocalNotificationCenter.Current.Show(request);
         }
 
         [RelayCommand]

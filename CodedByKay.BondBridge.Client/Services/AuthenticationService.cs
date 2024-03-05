@@ -1,4 +1,5 @@
-﻿using CodedByKay.BondBridge.Client.Interfaces;
+﻿using CodedByKay.BondBridge.Client.Exceptions;
+using CodedByKay.BondBridge.Client.Interfaces;
 using CodedByKay.BondBridge.Client.Models;
 using Microsoft.Extensions.Options;
 using System.Text;
@@ -95,8 +96,28 @@ namespace CodedByKay.BondBridge.Client.Services
                 string requestUri = "/api/Authentication/signin";
                 HttpResponseMessage response = await _httpClient.PostAsync(requestUri, content);
 
-                // Ensure success status code
-                response.EnsureSuccessStatusCode();
+                // Handle non-success status code
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        // Unauthorized access - wrong username or password
+                        throw new UnauthorizedAccessException("Oopss! Fel email eller lösenord. Försök igen!");
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        throw new BadRequestException("Oopss! Vänligen fyll i en korrekt email adress eller ett korrekt lösnord!");
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        throw new NotFoundException("Oopss! Användaren hittades tyvärr inte!");
+                    }
+                    else
+                    {
+                        // Other errors
+                        throw new Exception($"Sign-in failed with status code: {response.StatusCode}");
+                    }
+                }
 
                 // Read the response content
                 string responseContent = await response.Content.ReadAsStringAsync();
@@ -123,5 +144,6 @@ namespace CodedByKay.BondBridge.Client.Services
                 throw new Exception("Error deserializing the authentication response.", e);
             }
         }
+
     }
 }

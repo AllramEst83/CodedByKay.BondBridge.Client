@@ -9,7 +9,7 @@
     <ScrollView>
         <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center">
             <!-- Email Input -->
-            <Frame CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray">
+            <Frame x:Name="EmailFrame"  CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray" Margin="0,0,0,0">
                 <Entry x:Name="emailEntry" 
                        x:DataType="viewmodel:SigninViewModel"
                        Text="{Binding UserEmail}"
@@ -21,7 +21,7 @@
             </Frame>
 
             <!-- Password Input -->
-            <Frame CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray" Margin="0,10">
+            <Frame x:Name="PasswordFrame" CornerRadius="22" Padding="15,0,15,0" BackgroundColor="LightGray" Margin="0,0,0,0" >
                 <Entry x:Name="passwordEntry" 
                        x:DataType="viewmodel:SigninViewModel"
                        Text="{Binding UserPassword}"

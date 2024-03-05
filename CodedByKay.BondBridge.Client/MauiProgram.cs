@@ -58,6 +58,7 @@ namespace CodedByKay.BondBridge.Client
             builder.Services
                 //Services
                 .AddSingleton(SecureStorage.Default)
+                .AddSingleton<IBondBridgeNotificationService, BondBridgeNotificationService>()
                 .AddSingleton<IUserSecureStorageService, UserSecureStorageService>()
                 .AddSingleton<IPreferencesService, PreferencesService>()
                 .AddSingleton<IAuthenticationService, AuthenticationService>()
