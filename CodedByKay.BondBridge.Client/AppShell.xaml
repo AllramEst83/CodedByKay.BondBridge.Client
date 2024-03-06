@@ -12,17 +12,26 @@
         <Label Margin="5" Text="BondBridge" FontAttributes="None" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center" />
     </Shell.FlyoutHeader>
 
+
     <!-- Flyout menu items -->
-    <FlyoutItem Title="Konversationer" Icon="contact.png">
+    <FlyoutItem Title="Konversationer" Icon="placeholdercontact.png">
         <ShellContent ContentTemplate="{DataTemplate local:ConversationsListPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Teman" Icon="contact.png">
+    <FlyoutItem Title="Teman" Icon="placeholdercontact.png">
         <ShellContent ContentTemplate="{DataTemplate local:ThemeSelectorPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Om BondBridge" Icon="contact.png">
+    <FlyoutItem Title="Om BondBridge" Icon="placeholdercontact.png">
         <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Konto" Icon="placeholdercontact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:AccountDetailsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem x:Name="logFlyoutItem" Title="Loggar" Icon="placeholdercontact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:LogPage}" />
     </FlyoutItem>
 
 </Shell>
