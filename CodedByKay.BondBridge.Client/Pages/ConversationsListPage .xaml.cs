@@ -36,5 +36,11 @@ namespace CodedByKay.BondBridge.Client.Pages
             base.OnDisappearing();
 
         }
+
+        private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var viewModel = (ConversationsListViewModel)this.BindingContext;
+            viewModel.UpdateFilteredConversations(e.NewTextValue);
+        }
     }
 }

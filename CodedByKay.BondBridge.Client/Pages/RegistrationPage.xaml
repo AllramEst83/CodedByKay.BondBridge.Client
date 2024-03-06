@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CodedByKay.BondBridge.Client.Pages.RegistrationPage"
+             xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
+             xmlns:behaviors="clr-namespace:CodedByKay.BondBridge.Client.Behaviors"
+             Title="Registrera dig">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center" x:DataType="viewmodel:RegistrationViewModel">
+            <!-- Email Input -->
+            <Frame x:Name="EmailFrame" CornerRadius="22" Padding="15,0,15,0" BackgroundColor="{Binding IsEmailValid, Converter={StaticResource BoolToColorConverter}}"  Margin="0,0,0,0">
+                <VerticalStackLayout>
+
+                    <Label Text="E-postadressen måste vara en giltig adress (tex., user@example.com)."
+                       Margin="0,10,0,0"
+                       FontSize="Small"
+                       TextColor="Black"
+                       IsVisible="{Binding IsEmailValid, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                    
+                    <Entry x:Name="emailEntry" 
+                            Text="{Binding UserEmail}"
+                            TextColor="Black"
+                            Placeholder="E-post" 
+                            Keyboard="Email"
+                            BackgroundColor="Transparent"
+                            Margin="0">
+
+                        <Entry.Behaviors>
+                            <behaviors:EmailValidationBehavior IsValid="{Binding IsEmailValid, Mode=TwoWay}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Password Input -->
+            <Frame  x:Name="PasswordFrame" CornerRadius="22" Padding="15,0,15,0"  BackgroundColor="{Binding IsPasswordValid, Converter={StaticResource BoolToColorConverter}}"  Margin="0,0,0,0">
+                <VerticalStackLayout>
+
+                    <Label Text="Lösenordet måste vara minst 6 tecken långt och innehålla en siffra."
+                           Margin="0,10,0,0"
+                           FontSize="Small"
+                           TextColor="Black"
+                           IsVisible="{Binding IsPasswordValid, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                    
+                    <Entry x:Name="passwordEntry" 
+                           Text="{Binding UserPassword}"
+                           Placeholder="Lösenord" 
+                           IsPassword="True"
+                           TextColor="Black"
+                           BackgroundColor="Transparent"
+                           Margin="0">
+
+                        <Entry.Behaviors>
+                            <behaviors:PasswordValidationBehavior IsValid="{Binding IsPasswordValid, Mode=TwoWay}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Registration Button -->
+            <Button Text="Registrera dig" 
+                    BackgroundColor="Blue"
+                    TextColor="White"
+                    CornerRadius="22"
+                    HeightRequest="44"
+                     Command="{Binding Path=RegisterUserCommand, Source={RelativeSource AncestorType={x:Type viewmodel:RegistrationViewModel}}}"
+                     IsEnabled="{Binding CanRegister}"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
