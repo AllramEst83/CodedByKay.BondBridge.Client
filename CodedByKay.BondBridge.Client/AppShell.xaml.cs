@@ -17,6 +17,7 @@ namespace CodedByKay.BondBridge.Client
             Routing.RegisterRoute(nameof(AccountDetailsPage), typeof(AccountDetailsPage));
             Routing.RegisterRoute(nameof(LogPage), typeof(LogPage));
             Routing.RegisterRoute(nameof(LogDetailsPage), typeof(LogDetailsPage));
+            Routing.RegisterRoute(nameof(ShowConversationUsersPage), typeof(ShowConversationUsersPage));
 
             SetAdminVisibilityForLogs();
         }

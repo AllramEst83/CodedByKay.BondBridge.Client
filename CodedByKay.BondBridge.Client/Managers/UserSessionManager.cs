@@ -11,7 +11,7 @@ namespace CodedByKay.BondBridge.Client.Managers
     {
         private static UserSessionManager? _instance;
         private UserSessionData _sessionData = new();
-        
+
         /// <summary>
         /// Gets the singleton instance of the UserSessionManager.
         /// </summary>
@@ -43,6 +43,8 @@ namespace CodedByKay.BondBridge.Client.Managers
         /// </summary>
         public bool IsAdmin => _sessionData.Roles.Contains("admin_access");
 
+        public string UserId => _sessionData.UserId;
+        public string Username => _sessionData.Username;
         private UserSessionManager() { }
 
         /// <summary>
@@ -55,6 +57,8 @@ namespace CodedByKay.BondBridge.Client.Managers
 
             OnPropertyChanged(nameof(IsAuthenticated));
             OnPropertyChanged(nameof(IsAdmin));
+            OnPropertyChanged(nameof(UserId));
+            OnPropertyChanged(nameof(Username));
         }
 
         /// <summary>
@@ -66,6 +70,8 @@ namespace CodedByKay.BondBridge.Client.Managers
 
             OnPropertyChanged(nameof(IsAuthenticated));
             OnPropertyChanged(nameof(IsAdmin));
+            OnPropertyChanged(nameof(UserId));
+            OnPropertyChanged(nameof(Username));
         }
 
         /// <summary>

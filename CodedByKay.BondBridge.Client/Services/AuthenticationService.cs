@@ -55,7 +55,23 @@ namespace CodedByKay.BondBridge.Client.Services
                 HttpResponseMessage response = await _httpClient.PostAsync(requestUri, content);
 
                 // Ensure success status code
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        // Unauthorized access - wrong username or password
+                        throw new UnauthorizedAccessException("Oopss! Bond Bridge verkar ha lite störningar med sina tjänster i molnet. Försök igen lite senare tack.");
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        throw new BadRequestException("Oopss! Vänligen fyll i en korrekt email adress eller ett korrekt lösnord!");
+                    }
+                    else
+                    {
+                        // Other errors
+                        throw new Exception($"Sign-in failed with status code: {response.StatusCode}");
+                    }
+                }
             }
             catch (HttpRequestException e)
             {

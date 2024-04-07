@@ -18,6 +18,10 @@
         <ShellContent ContentTemplate="{DataTemplate local:ConversationsListPage}" />
     </FlyoutItem>
 
+    <!--<FlyoutItem Title="Konversationer" Icon="placeholdercontact.png">
+        <ShellContent ContentTemplate="{DataTemplate local:ShowConversationUsersPage}" />
+    </FlyoutItem>-->
+
     <FlyoutItem Title="Teman" Icon="placeholdercontact.png">
         <ShellContent ContentTemplate="{DataTemplate local:ThemeSelectorPage}" />
     </FlyoutItem>

@@ -7,5 +7,6 @@
         public string UserPreferancesKey { get; set; } = string.Empty;
         public string BondBridgeApiBaseUrl { get; set; } = string.Empty;
         public string AppUserRegistrationToken { get; set; } = string.Empty;
+        public string NewGroupAdded { get; set; } = string.Empty;
     }
 }

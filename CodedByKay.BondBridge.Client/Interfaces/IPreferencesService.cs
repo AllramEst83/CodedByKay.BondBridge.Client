@@ -13,6 +13,8 @@
         /// <returns>The preference value if found; otherwise, null.</returns>
         T? Get<T>(string key) where T : class;
 
+        Guid? GetCheckAndGetNewGroup(string key);
+
         /// <summary>
         /// Sets a preference value for the specified key.
         /// </summary>

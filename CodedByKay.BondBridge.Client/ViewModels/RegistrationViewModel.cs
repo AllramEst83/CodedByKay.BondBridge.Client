@@ -1,5 +1,7 @@
-﻿using CodedByKay.BondBridge.Client.Interfaces;
+﻿using CodedByKay.BondBridge.Client.Exceptions;
+using CodedByKay.BondBridge.Client.Interfaces;
 using CodedByKay.BondBridge.Client.MessageEvents;
+using CodedByKay.BondBridge.Client.Models;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -50,14 +52,36 @@ namespace CodedByKay.BondBridge.Client.ViewModels
                 return;
             }
 
-            await _authenticationService.AddUser(UserEmail, UserPassword);
-
-            await Toast.Make("Zing!!! Vi lyckade registrera dig. Logga in nu.", CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
-
-            MainThread.BeginInvokeOnMainThread(() =>
+            try
             {
-                WeakReferenceMessenger.Default.Send(new NavigateToSigninMessage());
-            });
+                await _authenticationService.AddUser(UserEmail, UserPassword);
+
+                await Toast.Make("Zing!!! Vi lyckade registrera dig. Logga in nu.", CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    WeakReferenceMessenger.Default.Send(new NavigateToSigninMessage());
+                });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                await UpdateUI(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+                await UpdateUI(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                await UpdateUI("Ett fel inträffade under inloggningsförsöket.");
+            }
+        }
+
+        private async Task UpdateUI(string exceptionMesage)
+        {
+            WeakReferenceMessenger.Default.Send(new FlashSigInInputOnRegistrationErrorMessage());
+
+            await Toast.Make(exceptionMesage, CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
         }
     }
 }

@@ -97,7 +97,7 @@ namespace CodedByKay.BondBridge.Client.ViewModels
 
         private async Task UpdateUI(string exceptionMesage)
         {
-            WeakReferenceMessenger.Default.Send(new FlashSigInInputOnAuthErrorMessage());
+            WeakReferenceMessenger.Default.Send(new FlashSigInInputOnSigninAuthErrorMessage());
 
             await Toast.Make(exceptionMesage, CommunityToolkit.Maui.Core.ToastDuration.Long).Show(CancellationToken.None);
         }

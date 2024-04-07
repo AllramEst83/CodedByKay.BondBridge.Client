@@ -1,12 +1,12 @@
 ﻿using CodedByKay.BondBridge.Client.Interfaces;
-using Plugin.LocalNotification.AndroidOption;
 using Plugin.LocalNotification;
+using Plugin.LocalNotification.AndroidOption;
 
 namespace CodedByKay.BondBridge.Client.Services
 {
     public class BondBridgeNotificationService : IBondBridgeNotificationService
     {
-        public void AddNotifications(int id,int bandgeNumber, string title, string subTitle, string lastmessage, DateTime timeOfNotification, string iconPath)
+        public void AddNotifications(int id, int bandgeNumber, string title, string subTitle, string lastmessage, DateTime timeOfNotification, string iconPath)
         {
             var request = new NotificationRequest
             {
