@@ -1,6 +1,6 @@
 ﻿namespace CodedByKay.BondBridge.Client.MessageEvents
 {
-    public class FlashSigInInputOnAuthErrorMessage
+    public class LoadUserDataMessage
     {
     }
 }

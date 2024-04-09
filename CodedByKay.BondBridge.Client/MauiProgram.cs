@@ -74,6 +74,8 @@ namespace CodedByKay.BondBridge.Client
                 .AddSingleton<AccountDetailsPage>()
                 .AddSingleton<LogPage>()
                 .AddSingleton<LogDetailsPage>()
+                .AddSingleton<ShowConversationUsersPage>()
+
 
                 //ViewModels
                 .AddTransient<SigninViewModel>()
@@ -84,7 +86,8 @@ namespace CodedByKay.BondBridge.Client
                 .AddSingleton<RegistrationViewModel>()
                 .AddSingleton<AccountDetailsViewModel>()
                 .AddSingleton<LogViewModel>()
-                .AddSingleton<LogDetailsViewModel>();
+                .AddSingleton<LogDetailsViewModel>()
+                .AddSingleton<ShowConversationUsersViewModel>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

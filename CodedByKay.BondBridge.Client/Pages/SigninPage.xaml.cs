@@ -36,7 +36,7 @@ public partial class SigninPage : ContentPage
             await NavigateToRegistrationPage();
         });
 
-        WeakReferenceMessenger.Default.Register<FlashSigInInputOnAuthErrorMessage>(this, async (recipient, message) =>
+        WeakReferenceMessenger.Default.Register<FlashSigInInputOnSigninAuthErrorMessage>(this, async (recipient, message) =>
         {
             await FlashInputFieldsAsync();
         });
@@ -46,7 +46,7 @@ public partial class SigninPage : ContentPage
     {
         base.OnDisappearing();
         WeakReferenceMessenger.Default.Unregister<NavigateToRegistrationMessage>(this);
-        WeakReferenceMessenger.Default.Unregister<FlashSigInInputOnAuthErrorMessage>(this);
+        WeakReferenceMessenger.Default.Unregister<FlashSigInInputOnSigninAuthErrorMessage>(this);
     }
 
     private async Task NavigateToRegistrationPage()

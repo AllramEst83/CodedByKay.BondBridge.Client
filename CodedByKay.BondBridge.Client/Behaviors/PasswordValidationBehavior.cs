@@ -36,20 +36,38 @@
             if (sender is Entry entry)
             {
                 var password = entry.Text;
-                IsValid = password.Length >= 6 && IsValidPassword(password);
+                IsValid = IsValidPassword(password);
             }
         }
 
-        private bool IsValidPassword(string value)
+        private static bool IsValidPassword(string value)
         {
+            bool hasUpperCase = false;
+            bool hasNumber = false;
+            bool hasSpecialChar = false;
+
+            if (value.Length < 6)
+            {
+                return false;
+            }
+
             foreach (char c in value)
             {
-                if (char.IsDigit(c))
+                if (char.IsUpper(c))
                 {
-                    return true;
+                    hasUpperCase = true;
+                }
+                else if (char.IsDigit(c))
+                {
+                    hasNumber = true;
+                }
+                else if (!char.IsLetterOrDigit(c))
+                {
+                    hasSpecialChar = true;
                 }
             }
-            return false;
+
+            return hasUpperCase && hasNumber && hasSpecialChar;
         }
     }
 }

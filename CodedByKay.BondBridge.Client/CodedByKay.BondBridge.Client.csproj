@@ -100,6 +100,9 @@
 	  <Compile Update="Pages\ConversationsListPage .xaml.cs">
 	    <DependentUpon>ConversationsListPage .xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\ShowConversationUsersPage.xaml.cs">
+	    <DependentUpon>ShowConversationUsersPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\SigninPage.xaml.cs">
 	    <DependentUpon>SigninPage.xaml</DependentUpon>
 	  </Compile>
@@ -115,6 +118,9 @@
 	  <MauiXaml Update="Pages\ConversationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\InitializationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\LogDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -122,6 +128,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\RegistrationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ShowConversationUsersPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\SigninPage.xaml">

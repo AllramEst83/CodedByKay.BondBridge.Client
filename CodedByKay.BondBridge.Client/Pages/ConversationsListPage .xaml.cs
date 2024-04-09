@@ -34,7 +34,6 @@ namespace CodedByKay.BondBridge.Client.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-
         }
 
         private void OnSearchTextChanged(object sender, TextChangedEventArgs e)

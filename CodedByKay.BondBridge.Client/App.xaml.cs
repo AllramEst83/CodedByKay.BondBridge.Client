@@ -12,7 +12,8 @@ namespace CodedByKay.BondBridge.Client
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            //Check start up flow
+            MainPage = new InitializationPage();
             CheckUserState(serviceProvider);
         }
 
@@ -29,18 +30,19 @@ namespace CodedByKay.BondBridge.Client
             var appSettings = appSettingsOption.Value;
 
             // Attempt to retrieve the IUserSecureStorageService and handle the case where it might not be registered
-            var userStateService = serviceProvider.GetService<IUserSecureStorageService>();
-            if (userStateService == null)
+            var userSecureStorageService = serviceProvider.GetService<IUserSecureStorageService>();
+            if (userSecureStorageService == null)
             {
                 // Handle the case where the user state service is not registered, e.g., log an error or throw an exception
                 throw new Exception("UserStateService is not registered in the service provider.");
             }
 
             // Now that we've confirmed userStateService is not null, proceed with fetching the UserSecrets
-            var userSecrets = await userStateService.GetAsync<UserSecrets>(appSettings.UserSecureStorageKey);
+            var userSecrets = await userSecureStorageService.GetAsync<UserSecrets>(appSettings.UserSecureStorageKey);
 
-            if (userSecrets != null) // Implement this method to check user authentication status
+            if (userSecrets != null)
             {
+                //Save User information on startup UserSessionManager
                 UserSessionManager.Instance.UpdateSession(userSecrets.AccessToken);
                 MainPage = new AppShell();
             }

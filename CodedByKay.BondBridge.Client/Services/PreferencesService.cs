@@ -8,6 +8,35 @@ namespace CodedByKay.BondBridge.Client.Services
     /// </summary>
     public class PreferencesService : IPreferencesService
     {
+        public Guid? GetCheckAndGetNewGroup(string key)
+        {
+            // Check if the key exists
+            if (!Preferences.Default.ContainsKey(key))
+            {
+                return null;
+            }
+
+            // Get the GUID as a serialized JSON string
+            var jsonString = Preferences.Default.Get<string>(key, null);
+
+            // If for some reason it's still null, return null
+            if (string.IsNullOrEmpty(jsonString)) return null;
+
+            // Deserialize the JSON string back to Guid
+            try
+            {
+                var guidValue = JsonSerializer.Deserialize<Guid>(jsonString);
+                return guidValue;
+            }
+            catch (JsonException)
+            {
+                // Handle or log the error as needed if deserialization fails
+                return null;
+            }
+        }
+
+
+
         /// <summary>
         /// Retrieves a preference value of the specified type associated with the specified key.
         /// </summary>

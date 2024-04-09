@@ -4,7 +4,8 @@
              x:Class="CodedByKay.BondBridge.Client.Pages.ConversationsListPage"
              xmlns:model="clr-namespace:CodedByKay.BondBridge.Client.Models"
              xmlns:viewmodel="clr-namespace:CodedByKay.BondBridge.Client.ViewModels"
-             Title="Konversationer">
+             Title="Konversationer"
+             Padding="0,25,0,0">
 
     <Grid Padding="5,0,5,5">
         <Grid.RowDefinitions>
@@ -15,62 +16,66 @@
         </Grid.RowDefinitions>
 
         <!-- CollectionView for displaying a list of contacts -->
-        <CollectionView Grid.Row="0"  x:DataType="viewmodel:ConversationsListViewModel" ItemsSource="{Binding FilteredConversations}" Margin="0,0,0,0">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Conversation">
-                    <!-- SwipeView wrapping the Grid for swipe actions -->
-                    <SwipeView>
-                        <!-- LeftItems for actions when swiped to the left -->
-                        <SwipeView.LeftItems>
-                            <SwipeItems Mode="Execute">
-                                <SwipeItemView
+        <RefreshView 
+                x:DataType="viewmodel:ConversationsListViewModel"
+                Command="{Binding RefreshConversationsCommand}" 
+                IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView Grid.Row="0"  x:DataType="viewmodel:ConversationsListViewModel" ItemsSource="{Binding FilteredConversations}" Margin="0,0,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Conversation">
+                        <!-- SwipeView wrapping the Grid for swipe actions -->
+                        <SwipeView>
+                            <!-- LeftItems for actions when swiped to the left -->
+                            <SwipeView.LeftItems>
+                                <SwipeItems Mode="Execute">
+                                    <SwipeItemView
                                         Command="{Binding Path=DeleteConversationCommand, Source={RelativeSource AncestorType={x:Type viewmodel:ConversationsListViewModel}}}"
                                         CommandParameter="{Binding .}" >
-                                    <Grid BackgroundColor="Red" Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Source="placeholdercontact.png" HeightRequest="25" WidthRequest="25" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="2" Margin="10,5,5,5"/>
-                                        <Label Text="Radera" TextColor="White" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
-                                    </Grid>
-                                </SwipeItemView>
-                            </SwipeItems>
-                        </SwipeView.LeftItems>
-                        <!-- Grid containing the item layout, now wrapped inside SwipeView -->
-                        <Grid Padding="10" ColumnDefinitions="Auto,*">
-                            <!-- Adding TapGestureRecognizer back to the Grid -->
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer 
-                    Command="{Binding Path=GoToConverstaionCommand, Source={RelativeSource AncestorType={x:Type viewmodel:ConversationsListViewModel}}}" 
-                    CommandParameter="{Binding ConversationId}"/>
-                            </Grid.GestureRecognizers>
+                                        <Grid BackgroundColor="Red" Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Source="placeholdercontact.png" HeightRequest="25" WidthRequest="25" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="2" Margin="10,5,5,5"/>
+                                            <Label Text="Radera" TextColor="White" VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
+                                        </Grid>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <!-- Grid containing the item layout, now wrapped inside SwipeView -->
+                            <Grid Padding="10" ColumnDefinitions="Auto,*">
+                                <!-- Adding TapGestureRecognizer back to the Grid -->
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                            Command="{Binding Path=GoToConverstaionCommand, Source={RelativeSource AncestorType={x:Type viewmodel:ConversationsListViewModel}}}" 
+                                            CommandParameter="{Binding ConversationId}"/>
+                                </Grid.GestureRecognizers>
 
-                            <!-- Image and StackLayout as before, for displaying contact info -->
-                            <Image 
-                                        Source="{Binding ImagePath}"
-                                        Aspect="AspectFill"
-                                        HeightRequest="50"
-                                        WidthRequest="50"
-                                        VerticalOptions="Center"/>
+                                <!-- Image and StackLayout as before, for displaying contact info -->
+                                <Image 
+                                    Source="{Binding ImagePath}"
+                                    Aspect="AspectFill"
+                                    HeightRequest="50"
+                                    WidthRequest="50"
+                                    VerticalOptions="Center"/>
 
-                            <StackLayout Grid.Column="1" Orientation="Vertical" Padding="15,0,0,0">
-                                <Label Text="{Binding FullName}"
+                                <StackLayout Grid.Column="1" Orientation="Vertical" Padding="15,0,0,0">
+                                    <Label Text="{Binding FullName}"
                                         FontSize="22"
                                         VerticalOptions="Center"/>
-                                <Label Text="{Binding LastMessage}"
+                                    <Label Text="{Binding LastMessage}"
                     FontSize="18"
                     TextColor="Green"
                     VerticalOptions="Center"/>
-                            </StackLayout>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
+                                </StackLayout>
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
 
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
         <!-- SearchBar placed above the floating action button but below the CollectionView -->
         <SearchBar 
                 x:DataType="viewmodel:ConversationsListViewModel"
